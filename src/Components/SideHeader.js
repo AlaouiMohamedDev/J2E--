@@ -1,7 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie';
+import { Link, useNavigate } from 'react-router-dom'
 
 function SideHeader() {
+    const [cookies,removeCookie] = useCookies(['name']);
+    const navigate = useNavigate()
+
+    const[jwt,setjwt] =useState(null)
+
+    useEffect(()=>{
+        if(cookies.jwt != "undefined")
+        {
+            setjwt(cookies.jwt)
+        }
+    },[cookies])
+
+    const logout = ()=>{
+        removeCookie('jwt')
+        removeCookie('userId')
+        removeCookie('first_name')
+        removeCookie('last_name')
+        window.location.reload();
+        navigate("/pharmacy")
+    }
   return (
     <div className="h-screen fixed bg-white w-1/4 2xl:w-1/5 shadows ">
         <div className="flex flex-col space-y-10 py-10 w-full  h-full relative">
@@ -40,6 +61,35 @@ function SideHeader() {
                      <i className='bx bx-mail-send text-lg' ></i>
                     <span className='font-bold'>Contact Us</span>
                 </div>
+
+                {
+                    !jwt
+                    &&
+                <Link to="/login">
+                    <div className='flex items-center space-x-3 text-Cblue border-b py-3 hover:text-Cblue2 cursor-pointer duration-100 transition-all'>
+                        <i className='bx bx-user text-lg' ></i>
+                        <span className='font-bold'>Login</span>
+                    </div>
+                </Link>
+                }
+                 {
+                   !jwt
+                    &&
+                    <Link to="/register">
+                        <div className='flex items-center space-x-3 text-Cblue border-b py-3 hover:text-Cblue2 cursor-pointer duration-100 transition-all'>
+                            <i className='bx bx-user text-lg' ></i>
+                            <span className='font-bold'>Register</span>
+                        </div>
+                    </Link>
+                }
+                {
+                     jwt
+                     &&
+                     <div onClick={logout} className='flex items-center space-x-3 text-Cblue border-b py-3 hover:text-Cblue2 cursor-pointer duration-100 transition-all'>
+                            <i className='bx bx-user text-lg' ></i>
+                            <span className='font-bold'>Logout</span>
+                        </div>
+                }
             </div>
             <div className="flex items-center w-full justify-center space-x-5 absolute  bottom-5 text-gray-500 dark:text-gray-200">
                 <i className="hover:text-Cblue2 delay-200 transition ease-in-out cursor-pointer bx bxl-facebook"></i>

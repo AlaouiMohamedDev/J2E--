@@ -15,7 +15,7 @@ const [pharmacies, setPharmacies] = useState([]);
 // Fonction pour récupérer la liste des cities depuis le backend 
 const fetchPharmacies = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/api/pharmacies');
+        const response = await axios.get('http://localhost:8080/api/pharmacies/withgardes');
         console.log(response.data)
         setPharmacies(response.data);
     } catch (error) {
@@ -147,6 +147,23 @@ const customStyles = {
     setSearch(e.target.value)
   }
 
+
+  const gardes = [
+    {value:0 , label:'All'},
+    {value:1 , label:'Nuit'},
+    {value:2 , label:'Jour'}
+  ];
+
+
+
+  
+const [garde,setGarde] = useState({ value: 0, label: 'all' })
+
+const handlerGarde= (e) => {
+    setGarde(e);
+  };
+
+
   return (
     <div className=" ml-[400px] flex flex-col space-y-5">
         <h1>List Pharmacies</h1>
@@ -171,6 +188,14 @@ const customStyles = {
               onChange={handlerZone}
             />
 
+<Select
+              options={gardes}
+              styles={customStyles}
+              placeholder="Choose a garde"
+              value={garde}
+              onChange={handlerGarde}
+            />
+
         <div className="grid grid-cols-5 gap-5">
 
             {
@@ -178,30 +203,62 @@ const customStyles = {
                     console.log(val)
                     if(city.value==0)
                     {
-                        if(zone.value == 0 && search =="")
+                        if(zone.value == 0 && search =="" && garde.value ==0)
                         {
                             return val;
                         }
-                        else if(zone.value == 0 && val.nom.toLowerCase().includes(search.toLowerCase()))
+                        else if(zone.value == 0 && search =="" && garde.value == val.gardeId )
                         {
                             return val;
                         }
-                        else if(zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()))
+                        else if(zone.value == val.zone.id && search =="" && garde.value == 0 )
+                        {
+                            return val;
+                        }
+                        else if(zone.value == 0 && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value ==0)
+                        {
+                            return val;
+                        }
+                        else if(zone.value == 0 && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value == val.gardeId)
+                        {
+                            return val;
+                        }
+                        else if(zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value ==0 )
+                        {
+                            return val
+                        }
+                        else if(zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value == val.gardeId )
                         {
                             return val
                         }
                     }
                     else
                     {
-                        if(city.value ==val.zone.ville.id && zone.value == 0 && search =="")
+                        if(city.value ==val.zone.ville.id && zone.value == 0 && search =="" && garde.value ==0)
                         {
                             return val;
                         }
-                        else if(city.value ==val.zone.ville.id && zone.value == 0 &&  val.nom.toLowerCase().includes(search.toLowerCase()))
+                        else if(city.value ==val.zone.ville.id && zone.value == 0 && search =="" && garde.value == val.gardeId)
                         {
                             return val;
                         }
-                        else if( zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()))
+                        else if( zone.value == val.zone.id && search =="" && garde.value ==0)
+                        {
+                            return val
+                        }
+                        else if(city.value ==val.zone.ville.id && zone.value == 0 &&  val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value ==0)
+                        {
+                            return val;
+                        }
+                        else if(city.value ==val.zone.ville.id && zone.value == 0 &&  val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value == val.gardeId)
+                        {
+                            return val;
+                        }
+                        else if( zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value ==0)
+                        {
+                            return val
+                        }
+                        else if( zone.value == val.zone.id && val.nom.toLowerCase().includes(search.toLowerCase()) && garde.value == val.gardeId)
                         {
                             return val
                         }

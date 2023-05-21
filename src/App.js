@@ -7,6 +7,9 @@ import Pharmacy from "./Components/Pharmacy";
 import Detail from "./Components/Detail";
 import { useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+import axios from "axios";
 
 
 
@@ -37,6 +40,28 @@ export default function App() {
     }
 
   }, []); 
+
+  const fecthUser = async()=>{
+    try {
+      const response = await axios.post("http://localhost:8080/api/v1/auth/user",{jwt:cookies.jwt});
+     
+        setCookie('userId',response.data.id)
+        setCookie('first_name',response.data.first_name)
+        setCookie('last_name',response.data.last_name)
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(()=>{
+    if(cookies.jwt != null )
+    {
+      fecthUser();
+    }
+  },[cookies.jwt])
+
+
   return (
     <BrowserRouter>
       <div className="w-full bg-gray-100 h-screen">
@@ -47,6 +72,8 @@ export default function App() {
           <Route path="/pharmacy" element={<Pharmacy />}></Route>
           <Route path="/detail/:id" element={<Detail />}></Route>
           <Route path="/zone" element={<Zone />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
         </Routes>
       </div>
     </BrowserRouter> 

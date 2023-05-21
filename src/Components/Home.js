@@ -5,9 +5,12 @@ import axios from "axios";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { Datepicker, Input, initTE } from "tw-elements";
+import { useCookies } from "react-cookie";
 
 function Home() {
   const navigate = useNavigate();
+
+  const [cookies] = useCookies(['name']);
 
   const [pharmacyInput, setPharmacy] = useState({
     name: "",
@@ -111,7 +114,7 @@ function Home() {
           longitude: latlng.lng,
           nom: pharmacyInput.name,
           image: response.secure_url,
-          utilisateur: { id: 1 },
+          user: { id: cookies.userId },
           zone: { id: zone.value },
         };
 
@@ -164,7 +167,7 @@ function Home() {
           longitude: latlngEdit.lng,
           nom: pharmacyInputEdit.name,
           image: response.secure_url,
-          utilisateur: { id: 1 },
+          user: { id: cookies.userId },
           zone: { id: zoneEdit.value },
         };
 
@@ -201,7 +204,14 @@ function Home() {
     fetchCities();
     fetchZones();
     fetchPharmacies();
+
   }, []);
+
+  // useEffect(()=>{
+  //   if(cookies.userId !=null)
+  //   {
+  //   }
+  // },[cookies.userId])
 
   const [pharmacies, setPharmacies] = useState([]);
 
@@ -425,23 +435,53 @@ function Home() {
         return selectedDate;
       }
 
-  const addgarde =() => {
+      const formatDate = (dateString) => {
+        const parts = dateString.split('/');
+        const day = parts[0];
+        const month = parts[1];
+        const year = parts[2];
+        return `${year}-${month}-${day}`;
+      };
 
-    const dateStart = document.querySelector('.dateStart').value;
-    const dateEnd = document.querySelector('.dateEnd').value;
+  const addgarde = async() => {
+
+    const dateStart = formatDate(document.querySelector('.dateStart').value);
+    const dateEnd = formatDate(document.querySelector('.dateEnd').value);
     
-
-
-
     const data ={
-      pharmacie:phrId,
-      garde:1,
-      date_debut:dateStart,
-      date_fin:dateEnd
+      pk:{
+        pharmacie:phrId,
+        dateDebut:dateStart,
+        garde:garde
+      },
+      dateFin:dateEnd
     }
     console.log("☠️☠️☠️ ----->",data)
 
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/pharmacieGardeList/save",
+        data
+      );
+      console.log(response);
+      swal.fire("Pharamcy Garded", "", "success");
+      navigate("");
+    } catch (error) {
+      swal.fire("Echec !!", "Pharmacy not garded", "warning");
+      console.error(error);
+    }
+
   }
+
+
+  const [garde, setGarde] = useState(1);
+
+  const handleToggleGarde = () => {
+    setGarde(prevGarde => (prevGarde === 1 ? 2 : 1));
+  };
+
+
 
   return (
     <div className=" ml-[400px] flex flex-col py-10 space-y-5">
@@ -467,7 +507,16 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            {pharmacies.map((phr, index) => (
+            {pharmacies
+            
+            .filter((val)=> {
+              console.log('my user val ----- ',val.user.id , "cookkiieee",cookies.userId , "texxxxt ",val.user.id == cookies.userId)
+              if (val.user.id == cookies.userId)
+              {
+                return val;
+              }
+            })
+            .map((phr, index) => (
               <tr key={phr.id} className="bg-white border-b grid grid-cols-4">
                 <th
                   scope="row"
@@ -670,6 +719,10 @@ function Home() {
             </div>
             <button onClick={addgarde} className="bg-main text-white py-2">
               Submit
+            </button>
+            <button onClick={handleToggleGarde} className={garde === 1 ? 'bg-white shadow text-black flex items-center space-x-1 justify-center p-2' : 'bg-black text-white shadow flex items-center space-x-1 justify-center p-2'}>
+            {garde == 1 ? <i className='bx bxs-sun' ></i> : <i className='bx bxs-moon'></i> }
+                  <span>{garde == 1 ? 'Jour' : 'Nuit' }</span>
             </button>
           </div>
         </div>
