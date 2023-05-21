@@ -7,18 +7,16 @@ import { useCookies } from 'react-cookie';
 
 
 const LeafletRoutingMachine = ({field}) => {
-  const [longlat,setLongLat] = useState({
-    lat:31.630491792770226,
-    long:-8.021628856658937
-  })
+  const [longlat,setLongLat] = useState({})
 
-  const [cookies, getCookie] = useCookies(['name']);
+  const [cookies] = useCookies(['name']);
 
 
 
   useEffect(()=>{
-    setLongLat({lat:getCookie('lat'),long:getCookie('long')})
-  },[getCookie('lat'),getCookie('long')])
+    setLongLat({lat:cookies.lat,long:cookies.long})
+    console.log('lllll->',longlat)
+  },[cookies.lat,cookies.long])
 
 
   let userIcon = L.icon({
@@ -51,7 +49,7 @@ const LeafletRoutingMachine = ({field}) => {
     //   resetMap()
     //   setRemove(1)
     // }
-    if(getCookie('lat'))//
+    if(longlat.lat !=null)//
     {
       var  marker1= L.marker([longlat.lat, longlat.long], { icon: userIcon }).addTo(
         map
@@ -66,7 +64,7 @@ const LeafletRoutingMachine = ({field}) => {
    }
 
 
-     if(getCookie('lat'))//
+     if(longlat.lat !=null)//
      {
 
        var routtt=L.Routing.control({
