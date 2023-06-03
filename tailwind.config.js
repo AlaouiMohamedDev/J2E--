@@ -12,15 +12,22 @@ module.exports = {
         '90':'90'
       },
       colors:{
-        'main':'#026873',
+        'main':'#FF5F5D',
         'Cblue' :'#024059',
         'Cblue2':'#026873',
-        'custGreen':'#0ab39c'
+        'custGreen':'#0ab39c',
+        'Cred':'#721E23'
+      },
+      fontWeight: {
+        black: '900',
+        extrablack: '1000',
       },
       fontFamily:{
         'playfair':['Playfair Display', 'sans-serif'],
         'righteous':['Righteous', 'cursive'],
         'poppins':['Poppins', 'sans-serif'],
+        'mogra':['Mogra', 'cursive'],
+        'alfa':['Alfa Slab One', 'cursive']
       },
     },
   },

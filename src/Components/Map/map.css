@@ -2,11 +2,11 @@
     width: 100%;
     height:50rem;
 }
-leaflet-routing-alt {
+.leaflet-routing-alt {
     display: none !important;
 }
 
-leaflet-top leaflet-right{
+.leaflet-top .leaflet-right{
 
         display: none !important;
 

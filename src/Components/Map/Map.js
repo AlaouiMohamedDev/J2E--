@@ -6,7 +6,7 @@ import  './map.css'
 import L from "leaflet"
 import LeafletGeocoder from "./LeafletGeocoder"
 
-const Map = ({ onValueChange,height }) => {
+const Map = ({ onValueChange,height,width }) => {
   const position = [31.6258257, -7.9891608];
 
   const handleChange = (value) => {
@@ -24,7 +24,7 @@ const Map = ({ onValueChange,height }) => {
 
   return (
     <MapContainer
-      className={`w-full h-full ${height ? 'md:h-[300px] col-span-2' : 'md:h-[400px]'}`}
+    className={`w-full h-full ${height ? 'md:h-[300px] col-span-2' : 'md:h-[400px]'} ${width ? 'md:h-[200px]' : ''}`}
       center={position}
       zoom={10}
       scrollWheelZoom={false}

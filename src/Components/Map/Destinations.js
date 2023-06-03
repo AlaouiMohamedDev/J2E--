@@ -33,7 +33,7 @@ function Destinations({field}) {
   
     return (
       <MapContainer
-        className="w-full h-full md:h-[600px] z-90 col-span-1 md:col-span-2"
+        className="w-full h-full md:h-[450px] z-90 col-span-1 md:col-span-2"
         center={position}
         zoom={30}
         scrollWheelZoom={true}

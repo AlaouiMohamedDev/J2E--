@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
+import SideHeader from './SideHeader';
 
 const Zone = () => {
  
@@ -122,23 +123,30 @@ const Zone = () => {
     };
     
     return (
-        <div className='py-10 px-7 ml-[400px]'>
-            <div className='flex items-center justify-between'>
-                <h1 className='text-xl font-bold text-center py-5'><c className='text-main'>{ville_Name}</c> Zones</h1>
-                <span onClick={showAddModal} className='bg-main text-white py-2 px-3 rounded text-sm  cursor-pointer'>Add new Zone</span>
+        <>
+        <SideHeader />
+        <div className='flex flex-col space-y-5 relative font-poppins'>
+        <img src="/authP.png" className="absolute opacity-20 object-cover w-full h-screen z-0" />
+            <div className='flex items-center justify-between  pl-[360px] pr-[20px] z-20 pt-10'>
+            <div className='flex items-center space-x-2'>
+                    <img src="/target.png" className='w-8' />
+                    <h1 className='text-xl font-bold text-center py-5'><c className='text-main'>{ville_Name}</c> Zones</h1>
+                </div>
+                
+                <span onClick={showAddModal} className='bg-main text-white py-2 px-3 rounded text-sm  shadow cursor-pointer'>Add new Zone</span>
             </div>
-            <div class="relative overflow-x-auto">
+            <div class="relative overflow-x-auto shadow pl-[360px] pr-[20px]">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white uppercase bg-main">
                         <tr className='grid grid-cols-3'>
                             <th scope="col" class="px-6 py-3">
-                                #Num
+                                Id
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Action
+                            Manage
                             </th>
                         </tr>
                     </thead>
@@ -148,8 +156,8 @@ const Zone = () => {
                                 <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>{index + 1}</th>
                                 <td className='px-6 py-4 text-black'>{zone.nom}</td>
                                 <td className='px-6 py-4 flex items-center space-x-2'>
-                                    <i onClick={()=>showModal(zone.id,zone.nom)} className='bx bx-edit-alt bg-[#FFB30D] text-white p-2 rounded cursor-pointer' ></i>
-                                    <i onClick={()=>deleteZone(zone.id)} className='bx bx-trash-alt bg-red-700 text-white p-2 rounded cursor-pointer' ></i>
+                                    <span onClick={()=>showModal(zone.id,zone.nom)} className='bg-[#DBF227] text-white p-2 rounded cursor-pointer text-xs' >Edit</span>
+                                    <span onClick={()=>deleteZone(zone.id)} className=' bg-[#FF4858] text-white p-2 rounded cursor-pointer text-xs' >Delete</span>
                                 </td>
                             </tr>
                         ))}
@@ -163,7 +171,8 @@ const Zone = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='editModal hidden  items-start -right-full  top-0 fixed bg-white h-screen w-[400px] shadow-lg rounded '>
+        </div>
+            <div className='editModal hidden  items-start -right-full  top-0 fixed z-100 bg-white h-screen w-[400px] shadow-lg rounded '>
                     <div className='flex flex-col space-y-7 w-full py-10 px-6 items-center justify-start relative'>
                             <i onClick={closeModal} className='bx bx-x text-lg absolute top-2 right-2 cursor-pointer' ></i>
                             <h1 className='text-lg font-semibold'>Edit Zone</h1>
@@ -172,7 +181,7 @@ const Zone = () => {
                     </div>
             </div>
 
-            <div className='addModal hidden  items-start -right-full  top-0 fixed bg-white h-screen w-[400px] shadow-lg rounded '>
+            <div className='addModal hidden  items-start -right-full  top-0 fixed z-100 bg-white h-screen w-[400px] shadow-lg rounded '>
                     <div className='flex flex-col space-y-7 w-full py-10 px-6 items-center justify-start relative'>
                             <i onClick={closeAddModal} className='bx bx-x text-lg absolute top-2 right-2 cursor-pointer' ></i>
                             <h1 className='text-lg font-semibold'>Add new Zone</h1>
@@ -180,7 +189,7 @@ const Zone = () => {
                             <span onClick={addZone} className="w-full text-white bg-main py-2 flex items-center justify-center cursor-pointer rounded ">Add</span>
                     </div>
             </div>
-        </div>
+        </>
     );
 };
 

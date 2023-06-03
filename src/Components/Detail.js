@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Destinations from './Map/Destinations';
+import SideHeader from './SideHeader';
 
 function Detail() {
 
@@ -44,6 +45,8 @@ function Detail() {
 
 
   return pharmacy !=null &&(
+    <>
+    <SideHeader />
     <div className=" ml-[400px] flex flex-col py-10 space-y-5">
        <div className=' bg-white $rounded shadow flex flex-col'>
         <div className="flex ">
@@ -62,6 +65,7 @@ function Detail() {
             long:pharmacy.longitude}}/>
        </div>
     </div>
+    </>
   )
 }
 

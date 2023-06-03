@@ -10,6 +10,7 @@ import { useCookies } from 'react-cookie';
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 import axios from "axios";
+import DetailPharmacy from "./Components/DetailPharmacy";
 
 
 
@@ -64,14 +65,15 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="w-full bg-gray-100 h-screen">
-        <SideHeader />
+      <div className="w-full bg-gray-50 h-screen relative">
+      
         <Routes >
           <Route path="/" element={<Home/>}></Route>
           <Route path="/city" element={<City />}></Route>
           <Route path="/pharmacy" element={<Pharmacy />}></Route>
           <Route path="/detail/:id" element={<Detail />}></Route>
           <Route path="/zone" element={<Zone />}></Route>
+          <Route path="/detailpharmacy/:id" element={<DetailPharmacy />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
         </Routes>
